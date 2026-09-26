@@ -1,3 +1,4 @@
+import Link from "next/link";
 const steps = [
   {
     number: "01",
@@ -265,12 +266,12 @@ export default function Home() {
                 </p>
 
                 <div className="mt-7">
-                  <a
-                    href="#"
+                  <Link
+                    href="/assignments/local-seo-competitor-research"
                     className="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
                   >
-                    Start assignment
-                  </a>
+                  Start assignment
+                  </Link>
                 </div>
               </div>
 
