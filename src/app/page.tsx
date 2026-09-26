@@ -1,69 +1,311 @@
-import Image from "next/image";
+const steps = [
+  {
+    number: "01",
+    title: "Choose an assignment",
+    description:
+      "Pick a practical SEO or content task based on the skill you want to practice.",
+  },
+  {
+    number: "02",
+    title: "Read the client brief",
+    description:
+      "Understand the scenario, your role, the task, and what you are expected to deliver.",
+  },
+  {
+    number: "03",
+    title: "Do the work",
+    description:
+      "Research the supplied businesses, review the information, and record your own observations.",
+  },
+  {
+    number: "04",
+    title: "Finish a deliverable",
+    description:
+      "Complete the assignment with a practical file you can review and learn from.",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-[#f7f8fa] text-slate-950">
+      <header className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+          <a href="/" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 font-bold text-white">
+              S
+            </div>
+
+            <div>
+              <p className="font-semibold tracking-tight">SEO VA Practice Lab</p>
+              <p className="text-xs text-slate-500">Practice real workflows</p>
+            </div>
+          </a>
+
+          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+            <a className="transition hover:text-slate-950" href="#how-it-works">
+              How it works
+            </a>
+            <a className="transition hover:text-slate-950" href="#assignments">
+              Assignments
+            </a>
+            <span className="rounded-full border border-slate-200 px-4 py-2 text-slate-400">
+              Progress coming soon
+            </span>
+          </nav>
+        </div>
+      </header>
+
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-28">
+          <div className="flex flex-col justify-center">
+            <div className="mb-6 flex">
+              <span className="rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+                SEO & Content VA Practice
+              </span>
+            </div>
+
+            <h1 className="max-w-3xl text-5xl font-bold leading-[1.05] tracking-[-0.04em] text-slate-950 sm:text-6xl">
+              Practice the work,
+              <span className="block text-blue-600">not just the theory.</span>
+            </h1>
+
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">
+              Build practical SEO and content skills through realistic
+              assignments, client-style briefs, guided workflows, and finished
+              practice deliverables.
+            </p>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a
+                href="#assignments"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+              >
+                Start practicing
+              </a>
+
+              <a
+                href="#how-it-works"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+              >
+                See how it works
+              </a>
+            </div>
+
+            <p className="mt-5 text-sm text-slate-500">
+              No client account needed. Start with a simulated practice
+              assignment.
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="rounded-3xl border border-slate-200 bg-[#f8fafc] p-4 shadow-xl shadow-slate-200/50 sm:p-6">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
+                    Practice Assignment
+                  </span>
+                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    Beginner
+                  </span>
+                </div>
+
+                <h2 className="mt-5 text-2xl font-bold tracking-tight">
+                  Local SEO Competitor Research
+                </h2>
+
+                <p className="mt-3 leading-7 text-slate-600">
+                  Research competing local businesses, review their websites,
+                  and organize useful observations for an SEO team.
+                </p>
+
+                <div className="my-6 border-t border-slate-200" />
+
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700">
+                      1
+                    </div>
+                    <div>
+                      <p className="font-semibold">Read the client brief</p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        Understand the market and research goal.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700">
+                      2
+                    </div>
+                    <div>
+                      <p className="font-semibold">Research 5 competitors</p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        Review business data and websites.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700">
+                      3
+                    </div>
+                    <div>
+                      <p className="font-semibold">Record your observations</p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        Add your own research instead of copying supplied data.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-bold text-blue-700">
+                      4
+                    </div>
+                    <div>
+                      <p className="font-semibold">Finish the deliverable</p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        Complete a competitor research sheet.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-7 rounded-xl bg-slate-950 px-5 py-4 text-white">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                        Deliverable
+                      </p>
+                      <p className="mt-1 font-semibold">
+                        Competitor Research Sheet
+                      </p>
+                    </div>
+                    <span className="text-sm text-slate-300">~30 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div className="max-w-2xl">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
+            How it works
+          </p>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+            Learn by completing the task.
+          </h2>
+          <p className="mt-4 text-lg leading-8 text-slate-600">
+            Each assignment is built around a realistic work scenario and ends
+            with something you actually produce.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step) => (
+            <article
+              key={step.number}
+              className="rounded-2xl border border-slate-200 bg-white p-6"
+            >
+              <span className="text-sm font-bold text-blue-600">
+                {step.number}
+              </span>
+              <h3 className="mt-6 text-lg font-bold">{step.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {step.description}
+              </p>
+            </article>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section id="assignments" className="border-y border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
+                Practice assignments
+              </p>
+              <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                Start with one real workflow.
+              </h2>
+            </div>
+
+            <p className="max-w-xl leading-7 text-slate-600">
+              The first version focuses on doing one assignment properly before
+              adding more practice tracks.
+            </p>
+          </div>
+
+          <article className="mt-10 overflow-hidden rounded-3xl border border-slate-200 bg-[#f8fafc]">
+            <div className="grid lg:grid-cols-[1fr_300px]">
+              <div className="p-7 sm:p-9">
+                <div className="flex flex-wrap gap-2">
+                  <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                    SEO Research
+                  </span>
+                  <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
+                    Beginner
+                  </span>
+                  <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
+                    ~30 minutes
+                  </span>
+                </div>
+
+                <h3 className="mt-6 text-2xl font-bold tracking-tight">
+                  Local SEO Competitor Research
+                </h3>
+
+                <p className="mt-3 max-w-2xl leading-7 text-slate-600">
+                  Work from a simulated client brief, research five competing
+                  local businesses, record useful SEO observations, and
+                  organize your findings into a finished research sheet.
+                </p>
+
+                <div className="mt-7">
+                  <a
+                    href="#"
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+                  >
+                    Start assignment
+                  </a>
+                </div>
+              </div>
+
+              <div className="border-t border-slate-200 bg-slate-950 p-7 text-white lg:border-l lg:border-t-0">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+                  You&apos;ll practice
+                </p>
+
+                <ul className="mt-5 space-y-4 text-sm">
+                  <li>Local business research</li>
+                  <li>Competitor website review</li>
+                  <li>SEO observation writing</li>
+                  <li>Research organization</li>
+                </ul>
+
+                <div className="mt-8 border-t border-slate-800 pt-6">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+                    Output
+                  </p>
+                  <p className="mt-2 font-semibold">
+                    Competitor Research Sheet
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer className="bg-[#f7f8fa]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-8 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+          <p>SEO VA Practice Lab</p>
+          <p>Practice projects are simulated learning assignments.</p>
+        </div>
+      </footer>
+    </main>
   );
 }
