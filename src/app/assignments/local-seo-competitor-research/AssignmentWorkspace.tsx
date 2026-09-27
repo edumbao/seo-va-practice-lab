@@ -13,6 +13,7 @@ import ResearchStep, {
 } from "./components/ResearchStep";
 import ReviewStep from "./components/ReviewStep";
 import AssignmentComplete from "./components/AssignmentComplete";
+import StartOverConfirmation from "./components/StartOverConfirmation";
 
 export type PracticeBusiness = {
   id: string;
@@ -44,6 +45,11 @@ type AssignmentWorkspaceProps = {
   businesses: PracticeBusiness[];
   websiteProfiles: WebsiteProfile[];
 };
+
+type CompletionView =
+  | "assignment"
+  | "complete"
+  | "confirm-reset";
 
 type StoredAssignmentState = {
   currentStep: number;
@@ -160,10 +166,8 @@ export default function AssignmentWorkspace({
     setHasLoadedStoredState,
   ] = useState(false);
 
-  const [
-    isAssignmentComplete,
-    setIsAssignmentComplete,
-  ] = useState(false);
+  const [completionView, setCompletionView] =
+    useState<CompletionView>("assignment");
 
   useEffect(() => {
     try {
@@ -253,6 +257,7 @@ export default function AssignmentWorkspace({
   };
 
   const goToStep = (step: number) => {
+    setCompletionView("assignment");
     setCurrentStep(step);
     scrollToTop();
   };
@@ -277,17 +282,47 @@ export default function AssignmentWorkspace({
   };
 
   const handleFinishAssignment = () => {
-    setIsAssignmentComplete(true);
+    setCurrentStep(5);
+    setCompletionView("complete");
     scrollToTop();
   };
 
   const handleReturnToReview = () => {
-    setIsAssignmentComplete(false);
     setCurrentStep(5);
+    setCompletionView("assignment");
     scrollToTop();
   };
 
-  if (isAssignmentComplete) {
+  const handleRequestStartOver = () => {
+    setCompletionView("confirm-reset");
+    scrollToTop();
+  };
+
+  const handleCancelStartOver = () => {
+    setCompletionView("complete");
+    scrollToTop();
+  };
+
+  const handleConfirmStartOver = () => {
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      console.error(
+        "Could not clear assignment progress.",
+        error,
+      );
+    }
+
+    setResearchEntries(
+      createInitialResearchEntries(businesses),
+    );
+    setActiveBusinessIndex(0);
+    setCurrentStep(1);
+    setCompletionView("assignment");
+    scrollToTop();
+  };
+
+  if (completionView === "complete") {
     return (
       <>
         <AssignmentHeader
@@ -303,7 +338,30 @@ export default function AssignmentWorkspace({
             onReturnToReview={
               handleReturnToReview
             }
-            onStartOver={() => {}}
+            onStartOver={
+              handleRequestStartOver
+            }
+          />
+        </div>
+      </>
+    );
+  }
+
+  if (completionView === "confirm-reset") {
+    return (
+      <>
+        <AssignmentHeader
+          currentStep={5}
+          totalSteps={assignmentSteps.length}
+          hasLoadedStoredState={
+            hasLoadedStoredState
+          }
+        />
+
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8">
+          <StartOverConfirmation
+            onCancel={handleCancelStartOver}
+            onConfirm={handleConfirmStartOver}
           />
         </div>
       </>
