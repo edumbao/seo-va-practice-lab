@@ -1,4 +1,5 @@
 import type { ResearchEntry } from "./ResearchStep";
+import ExportResearchButton from "./ExportResearchButton";
 
 type PracticeBusiness = {
   id: string;
@@ -21,16 +22,30 @@ type ReviewStepProps = {
   onEditBusiness: (index: number) => void;
 };
 
+function isResearchComplete(entry?: ResearchEntry) {
+  if (!entry) {
+    return false;
+  }
+
+  return (
+    entry.servicesObserved.trim().length > 0 &&
+    entry.websiteObservation.trim().length > 0 &&
+    entry.seoObservation.trim().length > 0 &&
+    entry.researchStatus === "complete"
+  );
+}
+
 export default function ReviewStep({
   businesses,
   researchEntries,
   onBack,
   onEditBusiness,
 }: ReviewStepProps) {
-  const completedCount = businesses.filter(
-    (business) =>
-      researchEntries[business.id]?.researchStatus === "complete",
+  const completedCount = businesses.filter((business) =>
+    isResearchComplete(researchEntries[business.id]),
   ).length;
+
+  const allComplete = completedCount === businesses.length;
 
   return (
     <div className="rounded-3xl border border-slate-200 bg-white p-7 sm:p-10">
@@ -52,17 +67,31 @@ export default function ReviewStep({
 
           <p className="mt-3 max-w-3xl leading-7 text-slate-600">
             Check the observations you recorded for all five competitors before
-            finishing the assignment.
+            exporting the finished research sheet.
           </p>
         </div>
 
-        <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm">
-          <p className="font-semibold text-emerald-900">
+        <div
+          className={`rounded-xl px-4 py-3 text-sm ${
+            allComplete ? "bg-emerald-50" : "bg-amber-50"
+          }`}
+        >
+          <p
+            className={`font-semibold ${
+              allComplete ? "text-emerald-900" : "text-amber-900"
+            }`}
+          >
             {completedCount} of {businesses.length} complete
           </p>
 
-          <p className="mt-1 text-emerald-700">
-            Research records ready for review
+          <p
+            className={`mt-1 ${
+              allComplete ? "text-emerald-700" : "text-amber-700"
+            }`}
+          >
+            {allComplete
+              ? "Research records ready for export"
+              : "Complete the remaining research before export"}
           </p>
         </div>
       </div>
@@ -87,46 +116,46 @@ export default function ReviewStep({
             return null;
           }
 
+          const validComplete = isResearchComplete(research);
+
           return (
             <article
               key={business.id}
               className="overflow-hidden rounded-2xl border border-slate-200"
             >
               <div className="flex flex-col gap-4 bg-slate-50 p-5 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-xs font-bold text-slate-600 ring-1 ring-slate-200">
-                      {index + 1}
-                    </span>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-xs font-bold text-slate-600 ring-1 ring-slate-200">
+                    {index + 1}
+                  </span>
 
-                    <div>
-                      <h3 className="font-bold text-slate-950">
-                        {business.name}
-                      </h3>
+                  <div>
+                    <h3 className="font-bold text-slate-950">
+                      {business.name}
+                    </h3>
 
-                      <p className="mt-1 text-sm text-slate-500">
-                        {business.category} | {business.rating} rating |{" "}
-                        {business.review_count} reviews
-                      </p>
-                    </div>
+                    <p className="mt-1 text-sm text-slate-500">
+                      {business.category} | {business.rating} rating |{" "}
+                      {business.review_count} reviews
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                      research.researchStatus === "complete"
+                      validComplete
                         ? "bg-emerald-100 text-emerald-700"
                         : research.researchStatus === "needs-review"
                           ? "bg-amber-100 text-amber-700"
                           : "bg-slate-200 text-slate-600"
                     }`}
                   >
-                    {research.researchStatus === "complete"
+                    {validComplete
                       ? "Complete"
                       : research.researchStatus === "needs-review"
                         ? "Needs review"
-                        : "Not started"}
+                        : "Not complete"}
                   </span>
 
                   <button
@@ -199,12 +228,12 @@ export default function ReviewStep({
           <li>All five competitors have been reviewed.</li>
           <li>Observations describe what you actually found.</li>
           <li>SEO observations are separate from the supplied business data.</li>
-          <li>Notes are clear enough for someone else to understand.</li>
-          <li>All five research records are marked Complete.</li>
+          <li>Optional notes add useful context when needed.</li>
+          <li>All five valid research records are marked Complete.</li>
         </ul>
       </div>
 
-      <div className="mt-10 flex flex-col gap-3 border-t border-slate-200 pt-7 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-10 flex flex-col gap-4 border-t border-slate-200 pt-7 sm:flex-row sm:items-start sm:justify-between">
         <button
           type="button"
           onClick={onBack}
@@ -213,13 +242,10 @@ export default function ReviewStep({
           Back to research
         </button>
 
-        <button
-          type="button"
-          disabled
-          className="inline-flex min-h-12 cursor-not-allowed items-center justify-center rounded-xl bg-slate-200 px-6 py-3 font-semibold text-slate-500"
-        >
-          Export research sheet coming next
-        </button>
+        <ExportResearchButton
+          businesses={businesses}
+          researchEntries={researchEntries}
+        />
       </div>
     </div>
   );
