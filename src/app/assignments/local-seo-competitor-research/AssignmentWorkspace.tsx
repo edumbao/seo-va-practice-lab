@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ClientBriefStep from "./components/ClientBriefStep";
 import DeliverableStep from "./components/DeliverableStep";
 import PracticeDataStep from "./components/PracticeDataStep";
@@ -38,6 +38,14 @@ type AssignmentWorkspaceProps = {
   businesses: PracticeBusiness[];
   websiteProfiles: WebsiteProfile[];
 };
+
+type StoredAssignmentState = {
+  currentStep: number;
+  activeBusinessIndex: number;
+  researchEntries: Record<string, ResearchEntry>;
+};
+
+const STORAGE_KEY = "seo-va-practice-lab:local-seo-competitor-research";
 
 const assignmentSteps = [
   {
@@ -84,6 +92,35 @@ function createInitialResearchEntries(
   );
 }
 
+function mergeStoredResearchEntries(
+  businesses: PracticeBusiness[],
+  storedEntries?: Record<string, ResearchEntry>,
+): Record<string, ResearchEntry> {
+  const initialEntries = createInitialResearchEntries(businesses);
+
+  if (!storedEntries) {
+    return initialEntries;
+  }
+
+  return Object.fromEntries(
+    businesses.map((business) => {
+      const storedEntry = storedEntries[business.id];
+
+      if (!storedEntry) {
+        return [business.id, initialEntries[business.id]];
+      }
+
+      return [
+        business.id,
+        {
+          ...initialEntries[business.id],
+          ...storedEntry,
+        },
+      ];
+    }),
+  );
+}
+
 export default function AssignmentWorkspace({
   businesses,
   websiteProfiles,
@@ -94,6 +131,76 @@ export default function AssignmentWorkspace({
   const [researchEntries, setResearchEntries] = useState<
     Record<string, ResearchEntry>
   >(() => createInitialResearchEntries(businesses));
+
+  const [hasLoadedStoredState, setHasLoadedStoredState] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedValue = window.localStorage.getItem(STORAGE_KEY);
+
+      if (!storedValue) {
+        setHasLoadedStoredState(true);
+        return;
+      }
+
+      const storedState = JSON.parse(
+        storedValue,
+      ) as Partial<StoredAssignmentState>;
+
+      if (
+        typeof storedState.currentStep === "number" &&
+        storedState.currentStep >= 1 &&
+        storedState.currentStep <= assignmentSteps.length
+      ) {
+        setCurrentStep(storedState.currentStep);
+      }
+
+      if (
+        typeof storedState.activeBusinessIndex === "number" &&
+        storedState.activeBusinessIndex >= 0 &&
+        storedState.activeBusinessIndex < businesses.length
+      ) {
+        setActiveBusinessIndex(storedState.activeBusinessIndex);
+      }
+
+      setResearchEntries(
+        mergeStoredResearchEntries(
+          businesses,
+          storedState.researchEntries,
+        ),
+      );
+    } catch (error) {
+      console.error("Could not restore assignment progress.", error);
+    } finally {
+      setHasLoadedStoredState(true);
+    }
+  }, [businesses]);
+
+  useEffect(() => {
+    if (!hasLoadedStoredState) {
+      return;
+    }
+
+    const stateToStore: StoredAssignmentState = {
+      currentStep,
+      activeBusinessIndex,
+      researchEntries,
+    };
+
+    try {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(stateToStore),
+      );
+    } catch (error) {
+      console.error("Could not save assignment progress.", error);
+    }
+  }, [
+    currentStep,
+    activeBusinessIndex,
+    researchEntries,
+    hasLoadedStoredState,
+  ]);
 
   const goToStep = (step: number) => {
     setCurrentStep(step);
@@ -160,6 +267,12 @@ export default function AssignmentWorkspace({
                 }}
               />
             </div>
+
+            {hasLoadedStoredState && (
+              <p className="mt-2 text-xs text-slate-400">
+                Progress is saved in this browser.
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -277,7 +390,7 @@ export default function AssignmentWorkspace({
               </h2>
 
               <p className="mt-4 max-w-3xl leading-7 text-slate-600">
-                Your competitor research is now stored in the assignment
+                Your competitor research is stored in the assignment
                 workspace. The next milestone will let you review all five
                 records together before finishing the practice assignment.
               </p>
