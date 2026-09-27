@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AssignmentWorkspace from "./AssignmentWorkspace";
+import competitorPracticeData from "@/data/competitor-practice.json";
 
 export default function LocalSeoCompetitorResearchPage() {
   return (
@@ -25,12 +26,12 @@ export default function LocalSeoCompetitorResearchPage() {
             href="/#assignments"
             className="text-sm font-semibold text-slate-600 transition hover:text-slate-950"
           >
-            ← Back to assignments
+            Back to assignments
           </Link>
         </div>
       </header>
 
-      <AssignmentWorkspace />
+      <AssignmentWorkspace businesses={competitorPracticeData} />
     </main>
   );
 }
