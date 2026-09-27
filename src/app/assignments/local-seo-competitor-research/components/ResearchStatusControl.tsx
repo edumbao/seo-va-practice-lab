@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { ResearchEntry } from "./ResearchStep";
 
 type ResearchStatusControlProps = {
@@ -37,6 +38,19 @@ export default function ResearchStatusControl({
 
   const canComplete = missingFields.length === 0;
 
+  useEffect(() => {
+    if (
+      research.researchStatus === "complete" &&
+      !canComplete
+    ) {
+      onStatusChange("needs-review");
+    }
+  }, [
+    canComplete,
+    research.researchStatus,
+    onStatusChange,
+  ]);
+
   const handleChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -59,7 +73,12 @@ export default function ResearchStatusControl({
         </span>
 
         <select
-          value={research.researchStatus}
+          value={
+            research.researchStatus === "complete" &&
+            !canComplete
+              ? "needs-review"
+              : research.researchStatus
+          }
           onChange={handleChange}
           className="mt-3 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
         >

@@ -1,3 +1,5 @@
+import ResearchForm from "./ResearchForm";
+
 type PracticeBusiness = {
   id: string;
   name: string;
@@ -47,6 +49,26 @@ type ResearchStepProps = {
   onContinue: () => void;
 };
 
+function hasRequiredResearch(entry?: ResearchEntry) {
+  if (!entry) {
+    return false;
+  }
+
+  return (
+    entry.servicesObserved.trim().length > 0 &&
+    entry.websiteObservation.trim().length > 0 &&
+    entry.seoObservation.trim().length > 0
+  );
+}
+
+function isResearchComplete(entry?: ResearchEntry) {
+  return (
+    Boolean(entry) &&
+    entry?.researchStatus === "complete" &&
+    hasRequiredResearch(entry)
+  );
+}
+
 export default function ResearchStep({
   businesses,
   websiteProfiles,
@@ -65,11 +87,12 @@ export default function ResearchStep({
 
   const research = researchEntries[business.id];
 
-  const completedCount = businesses.filter(
-    (item) => researchEntries[item.id]?.researchStatus === "complete",
+  const completedCount = businesses.filter((item) =>
+    isResearchComplete(researchEntries[item.id]),
   ).length;
 
-  const isLastBusiness = activeBusinessIndex === businesses.length - 1;
+  const isLastBusiness =
+    activeBusinessIndex === businesses.length - 1;
 
   const goToPreviousBusiness = () => {
     if (activeBusinessIndex > 0) {
@@ -85,7 +108,7 @@ export default function ResearchStep({
     }
   };
 
-  if (!websiteProfile || !research) {
+  if (!business || !websiteProfile || !research) {
     return (
       <div className="rounded-3xl border border-red-200 bg-white p-7 sm:p-10">
         <h2 className="text-2xl font-bold text-slate-950">
@@ -93,8 +116,8 @@ export default function ResearchStep({
         </h2>
 
         <p className="mt-3 leading-7 text-slate-600">
-          This business is missing either a website profile or a research
-          record.
+          This business is missing either a website profile or a
+          research record.
         </p>
       </div>
     );
@@ -119,8 +142,8 @@ export default function ResearchStep({
           </h2>
 
           <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-            Review the supplied business information and practice website
-            profile, then record your own observations.
+            Review the supplied business information and practice
+            website profile, then record your own observations.
           </p>
         </div>
 
@@ -128,15 +151,18 @@ export default function ResearchStep({
           <p className="font-semibold text-slate-900">
             {completedCount} of {businesses.length} complete
           </p>
+
           <p className="mt-1 text-slate-500">
-            Competitor {activeBusinessIndex + 1} of {businesses.length}
+            Competitor {activeBusinessIndex + 1} of{" "}
+            {businesses.length}
           </p>
         </div>
       </div>
 
       <div className="mt-8 flex gap-2 overflow-x-auto pb-2">
         {businesses.map((item, index) => {
-          const status = researchEntries[item.id]?.researchStatus;
+          const entry = researchEntries[item.id];
+          const isComplete = isResearchComplete(entry);
           const isActive = index === activeBusinessIndex;
 
           return (
@@ -147,7 +173,7 @@ export default function ResearchStep({
               className={`min-w-12 rounded-xl px-4 py-3 text-sm font-bold transition ${
                 isActive
                   ? "bg-blue-600 text-white"
-                  : status === "complete"
+                  : isComplete
                     ? "bg-emerald-50 text-emerald-700"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
@@ -169,21 +195,27 @@ export default function ResearchStep({
               {business.name}
             </h3>
 
-            <p className="mt-1 text-sm text-slate-500">{business.category}</p>
+            <p className="mt-1 text-sm text-slate-500">
+              {business.category}
+            </p>
 
             <div className="mt-6 grid gap-5 sm:grid-cols-2">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   Rating
                 </p>
-                <p className="mt-1 font-semibold">{business.rating}</p>
+                <p className="mt-1 font-semibold">
+                  {business.rating}
+                </p>
               </div>
 
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   Reviews
                 </p>
-                <p className="mt-1 font-semibold">{business.review_count}</p>
+                <p className="mt-1 font-semibold">
+                  {business.review_count}
+                </p>
               </div>
 
               <div className="sm:col-span-2">
@@ -199,7 +231,9 @@ export default function ResearchStep({
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   Phone
                 </p>
-                <p className="mt-1 text-sm text-slate-700">{business.phone}</p>
+                <p className="mt-1 text-sm text-slate-700">
+                  {business.phone}
+                </p>
               </div>
 
               <div>
@@ -302,149 +336,22 @@ export default function ResearchStep({
           </section>
         </div>
 
-        <section className="rounded-2xl border border-slate-200 p-6 sm:p-7">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-600">
-              Your research
-            </p>
-
-            <h3 className="mt-2 text-2xl font-bold">
-              Record your observations
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Write what you observe from the supplied profile. Avoid simply
-              repeating the business data.
-            </p>
-          </div>
-
-          <div className="mt-7 space-y-6">
-            <label className="block">
-              <span className="font-semibold text-slate-900">
-                Services observed
-              </span>
-
-              <span className="mt-1 block text-sm text-slate-500">
-                Which services or service themes stand out?
-              </span>
-
-              <textarea
-                value={research.servicesObserved}
-                onChange={(event) =>
-                  onResearchChange(
-                    business.id,
-                    "servicesObserved",
-                    event.target.value,
-                  )
-                }
-                rows={3}
-                className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm leading-6 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                placeholder="Example: Cosmetic dentistry and dental implants receive prominent coverage."
-              />
-            </label>
-
-            <label className="block">
-              <span className="font-semibold text-slate-900">
-                Website observation
-              </span>
-
-              <span className="mt-1 block text-sm text-slate-500">
-                Record something useful about the website content or structure.
-              </span>
-
-              <textarea
-                value={research.websiteObservation}
-                onChange={(event) =>
-                  onResearchChange(
-                    business.id,
-                    "websiteObservation",
-                    event.target.value,
-                  )
-                }
-                rows={3}
-                className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm leading-6 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                placeholder="Write your website observation."
-              />
-            </label>
-
-            <label className="block">
-              <span className="font-semibold text-slate-900">
-                SEO observation
-              </span>
-
-              <span className="mt-1 block text-sm text-slate-500">
-                What may be useful to an SEO team?
-              </span>
-
-              <textarea
-                value={research.seoObservation}
-                onChange={(event) =>
-                  onResearchChange(
-                    business.id,
-                    "seoObservation",
-                    event.target.value,
-                  )
-                }
-                rows={3}
-                className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm leading-6 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                placeholder="Write your SEO observation."
-              />
-            </label>
-
-            <label className="block">
-              <span className="font-semibold text-slate-900">
-                Research notes
-              </span>
-
-              <span className="mt-1 block text-sm text-slate-500">
-                Add any context another team member may need.
-              </span>
-
-              <textarea
-                value={research.researchNotes}
-                onChange={(event) =>
-                  onResearchChange(
-                    business.id,
-                    "researchNotes",
-                    event.target.value,
-                  )
-                }
-                rows={4}
-                className="mt-3 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm leading-6 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                placeholder="Add optional supporting notes."
-              />
-            </label>
-
-            <label className="block">
-              <span className="font-semibold text-slate-900">
-                Research status
-              </span>
-
-              <select
-                value={research.researchStatus}
-                onChange={(event) =>
-                  onResearchChange(
-                    business.id,
-                    "researchStatus",
-                    event.target.value,
-                  )
-                }
-                className="mt-3 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              >
-                <option value="not-started">Not started</option>
-                <option value="needs-review">Needs review</option>
-                <option value="complete">Complete</option>
-              </select>
-            </label>
-          </div>
-        </section>
+        <ResearchForm
+          businessId={business.id}
+          research={research}
+          onResearchChange={onResearchChange}
+        />
       </div>
 
       <div className="mt-10 flex flex-col gap-3 border-t border-slate-200 pt-7">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <button
             type="button"
-            onClick={activeBusinessIndex === 0 ? onBack : goToPreviousBusiness}
+            onClick={
+              activeBusinessIndex === 0
+                ? onBack
+                : goToPreviousBusiness
+            }
             className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             {activeBusinessIndex === 0
@@ -476,11 +383,13 @@ export default function ResearchStep({
           )}
         </div>
 
-        {isLastBusiness && completedCount !== businesses.length && (
-          <p className="text-right text-xs text-slate-500">
-            Mark all five competitors as complete before continuing to review.
-          </p>
-        )}
+        {isLastBusiness &&
+          completedCount !== businesses.length && (
+            <p className="text-right text-xs text-slate-500">
+              Complete the required research fields and mark all five
+              competitors Complete before continuing to review.
+            </p>
+          )}
       </div>
     </div>
   );
