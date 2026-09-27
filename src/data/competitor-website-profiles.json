@@ -1,0 +1,145 @@
+[
+  {
+    "business_id": "practice-dental-001",
+    "homepage_title": "Harborview Dental Studio | Family & Cosmetic Dentist in Seattle",
+    "homepage_heading": "Modern Dental Care for Seattle Families",
+    "homepage_intro": "Harborview Dental Studio provides preventive, restorative, and cosmetic dental care for adults and families in Seattle.",
+    "services": [
+      "General Dentistry",
+      "Preventive Care",
+      "Cosmetic Dentistry",
+      "Teeth Whitening",
+      "Dental Implants"
+    ],
+    "service_pages": [
+      "General Dentistry",
+      "Cosmetic Dentistry",
+      "Dental Implants"
+    ],
+    "location_copy": "Located in central Seattle and serving patients from nearby neighborhoods.",
+    "calls_to_action": [
+      "Book an Appointment",
+      "Call Our Office"
+    ],
+    "content_notes": [
+      "Homepage explains the main service categories.",
+      "Individual pages exist for several high-value services.",
+      "Location information is brief and does not name specific nearby neighborhoods.",
+      "No educational blog content is shown in this practice profile."
+    ]
+  },
+  {
+    "business_id": "practice-dental-002",
+    "homepage_title": "Northlake Family Dentistry | Seattle Dentist",
+    "homepage_heading": "Comfortable Dental Care for the Whole Family",
+    "homepage_intro": "Northlake Family Dentistry focuses on routine dental care for children, adults, and families near Green Lake.",
+    "services": [
+      "Family Dentistry",
+      "Dental Exams",
+      "Dental Cleanings",
+      "Fillings",
+      "Emergency Dental Care"
+    ],
+    "service_pages": [
+      "Family Dentistry",
+      "Emergency Dental Care"
+    ],
+    "location_copy": "Serving Green Lake and surrounding Seattle communities.",
+    "calls_to_action": [
+      "Request an Appointment",
+      "Contact Us"
+    ],
+    "content_notes": [
+      "The homepage strongly emphasizes family dentistry.",
+      "Green Lake is mentioned prominently in the location copy.",
+      "Only two dedicated service pages are represented in this practice profile.",
+      "Emergency dental care is included as a service."
+    ]
+  },
+  {
+    "business_id": "practice-dental-003",
+    "homepage_title": "Cedar Hill Dental Care | Seattle Dental Clinic",
+    "homepage_heading": "Personal Dental Care in Seattle",
+    "homepage_intro": "Cedar Hill Dental Care offers general dental services with a focus on preventive care and long-term patient relationships.",
+    "services": [
+      "General Dentistry",
+      "Preventive Dentistry",
+      "Dental Exams",
+      "Fillings",
+      "Crowns"
+    ],
+    "service_pages": [
+      "General Dentistry"
+    ],
+    "location_copy": "Our dental clinic welcomes patients from across Seattle.",
+    "calls_to_action": [
+      "Contact the Clinic"
+    ],
+    "content_notes": [
+      "The homepage describes general and preventive care.",
+      "The location copy mentions Seattle but provides little neighborhood detail.",
+      "Most services are listed together rather than represented by separate service pages.",
+      "The practice profile contains one main call to action."
+    ]
+  },
+  {
+    "business_id": "practice-dental-004",
+    "homepage_title": "Soundview Dental Group | West Seattle Dental Care",
+    "homepage_heading": "Complete Dental Care in West Seattle",
+    "homepage_intro": "Soundview Dental Group provides preventive, restorative, cosmetic, and emergency dental services for patients in West Seattle.",
+    "services": [
+      "Preventive Dentistry",
+      "Restorative Dentistry",
+      "Cosmetic Dentistry",
+      "Dental Implants",
+      "Emergency Dentistry",
+      "Invisalign"
+    ],
+    "service_pages": [
+      "Preventive Dentistry",
+      "Restorative Dentistry",
+      "Cosmetic Dentistry",
+      "Dental Implants",
+      "Emergency Dentistry",
+      "Invisalign"
+    ],
+    "location_copy": "Providing dental care for patients throughout West Seattle.",
+    "calls_to_action": [
+      "Schedule Online",
+      "Call Today",
+      "Request Emergency Care"
+    ],
+    "content_notes": [
+      "West Seattle appears prominently in the homepage content.",
+      "Every listed major service has a dedicated service page in this practice profile.",
+      "Emergency dentistry has a separate call to action.",
+      "The homepage covers several different service categories."
+    ]
+  },
+  {
+    "business_id": "practice-dental-005",
+    "homepage_title": "Evergreen Smile Center | Seattle Dental Care",
+    "homepage_heading": "Helping Seattle Smile with Confidence",
+    "homepage_intro": "Evergreen Smile Center provides routine and cosmetic dental services from its Seattle practice.",
+    "services": [
+      "Dental Cleanings",
+      "Dental Exams",
+      "Teeth Whitening",
+      "Veneers",
+      "Crowns"
+    ],
+    "service_pages": [
+      "Cosmetic Dentistry"
+    ],
+    "location_copy": "Convenient dental care in Seattle.",
+    "calls_to_action": [
+      "Call to Schedule"
+    ],
+    "content_notes": [
+      "The homepage introduces both routine and cosmetic dental services.",
+      "Several services are listed but most do not have individual pages in this practice profile.",
+      "The location copy is broad and only mentions Seattle.",
+      "The practice profile has a single phone-based call to action."
+    ]
+  }
+]
