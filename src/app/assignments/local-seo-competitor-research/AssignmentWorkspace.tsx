@@ -4,6 +4,9 @@ import { useState } from "react";
 import ClientBriefStep from "./components/ClientBriefStep";
 import DeliverableStep from "./components/DeliverableStep";
 import PracticeDataStep from "./components/PracticeDataStep";
+import ResearchStep, {
+  type ResearchEntry,
+} from "./components/ResearchStep";
 
 export type PracticeBusiness = {
   id: string;
@@ -19,8 +22,21 @@ export type PracticeBusiness = {
   business_status: string;
 };
 
+type WebsiteProfile = {
+  business_id: string;
+  homepage_title: string;
+  homepage_heading: string;
+  homepage_intro: string;
+  services: string[];
+  service_pages: string[];
+  location_copy: string;
+  calls_to_action: string[];
+  content_notes: string[];
+};
+
 type AssignmentWorkspaceProps = {
   businesses: PracticeBusiness[];
+  websiteProfiles: WebsiteProfile[];
 };
 
 const assignmentSteps = [
@@ -51,14 +67,51 @@ const assignmentSteps = [
   },
 ];
 
+function createInitialResearchEntries(
+  businesses: PracticeBusiness[],
+): Record<string, ResearchEntry> {
+  return Object.fromEntries(
+    businesses.map((business) => [
+      business.id,
+      {
+        servicesObserved: "",
+        websiteObservation: "",
+        seoObservation: "",
+        researchNotes: "",
+        researchStatus: "not-started",
+      },
+    ]),
+  );
+}
+
 export default function AssignmentWorkspace({
   businesses,
+  websiteProfiles,
 }: AssignmentWorkspaceProps) {
   const [currentStep, setCurrentStep] = useState(1);
+  const [activeBusinessIndex, setActiveBusinessIndex] = useState(0);
+
+  const [researchEntries, setResearchEntries] = useState<
+    Record<string, ResearchEntry>
+  >(() => createInitialResearchEntries(businesses));
 
   const goToStep = (step: number) => {
     setCurrentStep(step);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleResearchChange = (
+    businessId: string,
+    field: keyof ResearchEntry,
+    value: string,
+  ) => {
+    setResearchEntries((currentEntries) => ({
+      ...currentEntries,
+      [businessId]: {
+        ...currentEntries[businessId],
+        [field]: value,
+      },
+    }));
   };
 
   return (
@@ -187,39 +240,55 @@ export default function AssignmentWorkspace({
             <PracticeDataStep
               businesses={businesses}
               onBack={() => goToStep(2)}
-              onContinue={() => goToStep(4)}
+              onContinue={() => {
+                setActiveBusinessIndex(0);
+                goToStep(4);
+              }}
             />
           )}
 
           {currentStep === 4 && (
+            <ResearchStep
+              businesses={businesses}
+              websiteProfiles={websiteProfiles}
+              researchEntries={researchEntries}
+              activeBusinessIndex={activeBusinessIndex}
+              onActiveBusinessChange={setActiveBusinessIndex}
+              onResearchChange={handleResearchChange}
+              onBack={() => goToStep(3)}
+              onContinue={() => goToStep(5)}
+            />
+          )}
+
+          {currentStep === 5 && (
             <div className="rounded-3xl border border-slate-200 bg-white p-7 sm:p-10">
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
-                  4
+                  5
                 </span>
 
                 <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
-                  Research
+                  Review
                 </p>
               </div>
 
               <h2 className="mt-6 text-3xl font-bold tracking-tight">
-                Research workspace coming next
+                Review step coming next
               </h2>
 
               <p className="mt-4 max-w-3xl leading-7 text-slate-600">
-                The practice data is connected. The next development milestone
-                will turn this step into the workspace where you research each
-                competitor and record your observations.
+                Your competitor research is now stored in the assignment
+                workspace. The next milestone will let you review all five
+                records together before finishing the practice assignment.
               </p>
 
               <div className="mt-10 border-t border-slate-200 pt-7">
                 <button
                   type="button"
-                  onClick={() => goToStep(3)}
+                  onClick={() => goToStep(4)}
                   className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
-                  Back to practice data
+                  Back to research
                 </button>
               </div>
             </div>

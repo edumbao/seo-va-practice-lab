@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AssignmentWorkspace from "./AssignmentWorkspace";
 import competitorPracticeData from "@/data/competitor-practice.json";
+import competitorWebsiteProfiles from "@/data/competitor-website-profiles.json";
 
 export default function LocalSeoCompetitorResearchPage() {
   return (
@@ -31,7 +32,10 @@ export default function LocalSeoCompetitorResearchPage() {
         </div>
       </header>
 
-      <AssignmentWorkspace businesses={competitorPracticeData} />
+      <AssignmentWorkspace
+        businesses={competitorPracticeData}
+        websiteProfiles={competitorWebsiteProfiles}
+      />
     </main>
   );
 }
