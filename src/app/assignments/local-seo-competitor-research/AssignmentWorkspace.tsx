@@ -7,6 +7,7 @@ import PracticeDataStep from "./components/PracticeDataStep";
 import ResearchStep, {
   type ResearchEntry,
 } from "./components/ResearchStep";
+import ReviewStep from "./components/ReviewStep";
 
 export type PracticeBusiness = {
   id: string;
@@ -221,6 +222,11 @@ export default function AssignmentWorkspace({
     }));
   };
 
+  const handleEditBusiness = (index: number) => {
+    setActiveBusinessIndex(index);
+    goToStep(4);
+  };
+
   return (
     <>
       <section className="border-b border-slate-200 bg-white">
@@ -374,37 +380,12 @@ export default function AssignmentWorkspace({
           )}
 
           {currentStep === 5 && (
-            <div className="rounded-3xl border border-slate-200 bg-white p-7 sm:p-10">
-              <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
-                  5
-                </span>
-
-                <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
-                  Review
-                </p>
-              </div>
-
-              <h2 className="mt-6 text-3xl font-bold tracking-tight">
-                Review step coming next
-              </h2>
-
-              <p className="mt-4 max-w-3xl leading-7 text-slate-600">
-                Your competitor research is stored in the assignment
-                workspace. The next milestone will let you review all five
-                records together before finishing the practice assignment.
-              </p>
-
-              <div className="mt-10 border-t border-slate-200 pt-7">
-                <button
-                  type="button"
-                  onClick={() => goToStep(4)}
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
-                >
-                  Back to research
-                </button>
-              </div>
-            </div>
+            <ReviewStep
+              businesses={businesses}
+              researchEntries={researchEntries}
+              onBack={() => goToStep(4)}
+              onEditBusiness={handleEditBusiness}
+            />
           )}
         </section>
       </div>
