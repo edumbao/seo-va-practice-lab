@@ -1,0 +1,67 @@
+[
+  {
+    "id": "practice-dental-001",
+    "name": "Harborview Dental Studio",
+    "category": "Dentist",
+    "address": "1420 Pine Street, Seattle, WA",
+    "city": "Seattle",
+    "state": "WA",
+    "website": "https://example.com/harborview-dental",
+    "phone": "(206) 555-0142",
+    "rating": 4.7,
+    "review_count": 184,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "id": "practice-dental-002",
+    "name": "Northlake Family Dentistry",
+    "category": "Dentist",
+    "address": "810 Green Lake Avenue N, Seattle, WA",
+    "city": "Seattle",
+    "state": "WA",
+    "website": "https://example.com/northlake-family-dentistry",
+    "phone": "(206) 555-0187",
+    "rating": 4.5,
+    "review_count": 96,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "id": "practice-dental-003",
+    "name": "Cedar Hill Dental Care",
+    "category": "Dental clinic",
+    "address": "2315 Madison Street, Seattle, WA",
+    "city": "Seattle",
+    "state": "WA",
+    "website": "https://example.com/cedar-hill-dental",
+    "phone": "(206) 555-0126",
+    "rating": 4.3,
+    "review_count": 58,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "id": "practice-dental-004",
+    "name": "Soundview Dental Group",
+    "category": "Dentist",
+    "address": "4550 California Avenue SW, Seattle, WA",
+    "city": "Seattle",
+    "state": "WA",
+    "website": "https://example.com/soundview-dental",
+    "phone": "(206) 555-0164",
+    "rating": 4.8,
+    "review_count": 241,
+    "business_status": "OPERATIONAL"
+  },
+  {
+    "id": "practice-dental-005",
+    "name": "Evergreen Smile Center",
+    "category": "Dental clinic",
+    "address": "620 Broadway E, Seattle, WA",
+    "city": "Seattle",
+    "state": "WA",
+    "website": "https://example.com/evergreen-smile",
+    "phone": "(206) 555-0193",
+    "rating": 4.1,
+    "review_count": 42,
+    "business_status": "OPERATIONAL"
+  }
+]
