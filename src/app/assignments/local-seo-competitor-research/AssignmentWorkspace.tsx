@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import AssignmentHeader from "./components/AssignmentHeader";
@@ -12,6 +12,7 @@ import ResearchStep, {
   type ResearchEntry,
 } from "./components/ResearchStep";
 import ReviewStep from "./components/ReviewStep";
+import AssignmentComplete from "./components/AssignmentComplete";
 
 export type PracticeBusiness = {
   id: string;
@@ -141,6 +142,7 @@ export default function AssignmentWorkspace({
   websiteProfiles,
 }: AssignmentWorkspaceProps) {
   const [currentStep, setCurrentStep] = useState(1);
+
   const [
     activeBusinessIndex,
     setActiveBusinessIndex,
@@ -156,6 +158,11 @@ export default function AssignmentWorkspace({
   const [
     hasLoadedStoredState,
     setHasLoadedStoredState,
+  ] = useState(false);
+
+  const [
+    isAssignmentComplete,
+    setIsAssignmentComplete,
   ] = useState(false);
 
   useEffect(() => {
@@ -238,13 +245,16 @@ export default function AssignmentWorkspace({
     hasLoadedStoredState,
   ]);
 
-  const goToStep = (step: number) => {
-    setCurrentStep(step);
-
+  const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+  };
+
+  const goToStep = (step: number) => {
+    setCurrentStep(step);
+    scrollToTop();
   };
 
   const handleResearchChange = (
@@ -265,6 +275,40 @@ export default function AssignmentWorkspace({
     setActiveBusinessIndex(index);
     goToStep(4);
   };
+
+  const handleFinishAssignment = () => {
+    setIsAssignmentComplete(true);
+    scrollToTop();
+  };
+
+  const handleReturnToReview = () => {
+    setIsAssignmentComplete(false);
+    setCurrentStep(5);
+    scrollToTop();
+  };
+
+  if (isAssignmentComplete) {
+    return (
+      <>
+        <AssignmentHeader
+          currentStep={5}
+          totalSteps={assignmentSteps.length}
+          hasLoadedStoredState={
+            hasLoadedStoredState
+          }
+        />
+
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8">
+          <AssignmentComplete
+            onReturnToReview={
+              handleReturnToReview
+            }
+            onStartOver={() => {}}
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -333,6 +377,9 @@ export default function AssignmentWorkspace({
               onBack={() => goToStep(4)}
               onEditBusiness={
                 handleEditBusiness
+              }
+              onFinish={
+                handleFinishAssignment
               }
             />
           )}

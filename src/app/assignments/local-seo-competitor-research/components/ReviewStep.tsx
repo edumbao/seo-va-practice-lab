@@ -1,4 +1,4 @@
-import type { ResearchEntry } from "./ResearchStep";
+﻿import type { ResearchEntry } from "./ResearchStep";
 import ExportResearchButton from "./ExportResearchButton";
 
 type PracticeBusiness = {
@@ -20,6 +20,7 @@ type ReviewStepProps = {
   researchEntries: Record<string, ResearchEntry>;
   onBack: () => void;
   onEditBusiness: (index: number) => void;
+  onFinish: () => void;
 };
 
 function isResearchComplete(entry?: ResearchEntry) {
@@ -40,6 +41,7 @@ export default function ReviewStep({
   researchEntries,
   onBack,
   onEditBusiness,
+  onFinish,
 }: ReviewStepProps) {
   const completedCount = businesses.filter((business) =>
     isResearchComplete(researchEntries[business.id]),
@@ -67,7 +69,7 @@ export default function ReviewStep({
 
           <p className="mt-3 max-w-3xl leading-7 text-slate-600">
             Check the observations you recorded for all five competitors before
-            exporting the finished research sheet.
+            exporting the finished research sheet and completing the assignment.
           </p>
         </div>
 
@@ -173,7 +175,6 @@ export default function ReviewStep({
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
                     Services observed
                   </p>
-
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700">
                     {research.servicesObserved || "No observation entered."}
                   </p>
@@ -183,7 +184,6 @@ export default function ReviewStep({
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
                     Website observation
                   </p>
-
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700">
                     {research.websiteObservation ||
                       "No website observation entered."}
@@ -194,7 +194,6 @@ export default function ReviewStep({
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
                     SEO observation
                   </p>
-
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700">
                     {research.seoObservation || "No SEO observation entered."}
                   </p>
@@ -204,7 +203,6 @@ export default function ReviewStep({
                   <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">
                     Research notes
                   </p>
-
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700">
                     {research.researchNotes || "No additional notes entered."}
                   </p>
@@ -233,19 +231,36 @@ export default function ReviewStep({
         </ul>
       </div>
 
-      <div className="mt-10 flex flex-col gap-4 border-t border-slate-200 pt-7 sm:flex-row sm:items-start sm:justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
-        >
-          Back to research
-        </button>
+      <div className="mt-10 border-t border-slate-200 pt-7">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Back to research
+          </button>
 
-        <ExportResearchButton
-          businesses={businesses}
-          researchEntries={researchEntries}
-        />
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+            <ExportResearchButton
+              businesses={businesses}
+              researchEntries={researchEntries}
+            />
+
+            <button
+              type="button"
+              onClick={onFinish}
+              disabled={!allComplete}
+              className={`inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 font-semibold transition ${
+                allComplete
+                  ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                  : "cursor-not-allowed bg-slate-200 text-slate-500"
+              }`}
+            >
+              Finish assignment
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
