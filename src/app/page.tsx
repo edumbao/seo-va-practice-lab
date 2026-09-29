@@ -107,17 +107,16 @@ export default function Home() {
                     Practice Assignment
                   </span>
                   <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                    Beginner
+                    {featuredAssignment.difficulty}
                   </span>
                 </div>
 
                 <h2 className="mt-5 text-2xl font-bold tracking-tight">
-                  Local SEO Competitor Research
+                  {featuredAssignment.title}
                 </h2>
 
                 <p className="mt-3 leading-7 text-slate-600">
-                  Research competing local businesses, review their websites,
-                  and organize useful observations for an SEO team.
+                  {featuredAssignment.shortDescription}
                 </p>
 
                 <div className="my-6 border-t border-slate-200" />
@@ -179,10 +178,10 @@ export default function Home() {
                         Deliverable
                       </p>
                       <p className="mt-1 font-semibold">
-                        Competitor Research Sheet
+                        {featuredAssignment.deliverable}
                       </p>
                     </div>
-                    <span className="text-sm text-slate-300">~30 min</span>
+                    <span className="text-sm text-slate-300">{featuredAssignment.estimatedTime}</span>
                   </div>
                 </div>
               </div>
@@ -256,3 +255,5 @@ export default function Home() {
     </main>
   );
 }
+
+
