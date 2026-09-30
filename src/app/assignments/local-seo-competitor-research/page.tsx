@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import AssignmentWorkspace from "./AssignmentWorkspace";
 import competitorPracticeData from "@/data/competitor-practice.json";
 import competitorWebsiteProfiles from "@/data/competitor-website-profiles.json";
@@ -24,7 +24,7 @@ export default function LocalSeoCompetitorResearchPage() {
           </Link>
 
           <Link
-            href="/#assignments"
+            href="/assignments"
             className="text-sm font-semibold text-slate-600 transition hover:text-slate-950"
           >
             Back to assignments

@@ -43,11 +43,18 @@ export default function Home() {
             </div>
           </a>
 
+          <a
+            href="/assignments"
+            className="text-sm font-semibold text-slate-600 transition hover:text-slate-950 md:hidden"
+          >
+            Assignments
+          </a>
+
           <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
             <a className="transition hover:text-slate-950" href="#how-it-works">
               How it works
             </a>
-            <a className="transition hover:text-slate-950" href="#assignments">
+            <a className="transition hover:text-slate-950" href="/assignments">
               Assignments
             </a>
             <span className="rounded-full border border-slate-200 px-4 py-2 text-slate-400">
@@ -255,5 +262,7 @@ export default function Home() {
     </main>
   );
 }
+
+
 
 
