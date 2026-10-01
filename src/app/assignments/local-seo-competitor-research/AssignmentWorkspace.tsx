@@ -5,7 +5,7 @@ import { getAssignmentById } from "@/data/assignments";
 import AssignmentHeader from "./components/AssignmentHeader";
 import AssignmentSidebar, {
   type AssignmentStep,
-} from "./components/AssignmentSidebar";
+} from "../components/AssignmentSidebar";
 import ClientBriefStep from "./components/ClientBriefStep";
 import DeliverableStep from "./components/DeliverableStep";
 import PracticeDataStep from "./components/PracticeDataStep";
@@ -454,6 +454,7 @@ export default function AssignmentWorkspace({
     </>
   );
 }
+
 
 
 
