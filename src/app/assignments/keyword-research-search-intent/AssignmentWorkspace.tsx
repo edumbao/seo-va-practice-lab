@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { getAssignmentById } from "@/data/assignments";
@@ -6,6 +6,7 @@ import AssignmentHeader from "../components/AssignmentHeader";
 import AssignmentSidebar, {
   type AssignmentStep,
 } from "../components/AssignmentSidebar";
+import ClientBriefStep from "./components/ClientBriefStep";
 
 export type PracticeKeyword = {
   id: string;
@@ -77,22 +78,28 @@ export default function AssignmentWorkspace({
         />
 
         <section>
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
-              Step {currentStep}
-            </p>
+          {currentStep === 1 && (
+            <ClientBriefStep
+              onContinue={() => setCurrentStep(2)}
+            />
+          )}
 
-            <h2 className="mt-3 text-2xl font-bold tracking-tight">
-              Assignment 02 workspace
-            </h2>
+          {currentStep > 1 && (
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
+                Step {currentStep}
+              </p>
 
-            <p className="mt-4 max-w-2xl leading-7 text-slate-600">
-              This assignment is still being built. The practice dataset
-              currently contains {keywords.length} simulated keywords.
-            </p>
+              <h2 className="mt-3 text-2xl font-bold tracking-tight">
+                Assignment 02 workspace
+              </h2>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              {currentStep > 1 && (
+              <p className="mt-4 max-w-2xl leading-7 text-slate-600">
+                This assignment is still being built. The practice dataset
+                currently contains {keywords.length} simulated keywords.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
                 <button
                   type="button"
                   onClick={() =>
@@ -102,21 +109,21 @@ export default function AssignmentWorkspace({
                 >
                   Previous step
                 </button>
-              )}
 
-              {currentStep < assignmentSteps.length && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setCurrentStep((step) => step + 1)
-                  }
-                  className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-                >
-                  Next step
-                </button>
-              )}
+                {currentStep < assignmentSteps.length && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentStep((step) => step + 1)
+                    }
+                    className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+                  >
+                    Next step
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </section>
       </div>
     </>
