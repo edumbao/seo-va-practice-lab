@@ -7,6 +7,7 @@ export type Assignment = {
   difficulty: string;
   estimatedTime: string;
   shortDescription: string;
+  assignmentDescription: string;
   description: string;
   deliverable: string;
   href: string;
@@ -23,6 +24,8 @@ export const assignments: Assignment[] = [
     estimatedTime: "~30 minutes",
     shortDescription:
       "Research competing local businesses, review their websites, and organize useful observations for an SEO team.",
+    assignmentDescription:
+      "Practice researching competing local businesses and organizing useful observations for an SEO team.",
     description:
       "Work from a simulated client brief, research five competing local businesses, record useful SEO observations, and organize your findings into a finished research sheet.",
     deliverable: "Competitor Research Sheet",
@@ -39,3 +42,14 @@ export const assignments: Assignment[] = [
 
 export const featuredAssignment = assignments[0];
 
+
+
+export function getAssignmentById(id: string): Assignment {
+  const assignment = assignments.find((item) => item.id === id);
+
+  if (!assignment) {
+    throw new Error(`Assignment metadata not found for id: ${id}`);
+  }
+
+  return assignment;
+}

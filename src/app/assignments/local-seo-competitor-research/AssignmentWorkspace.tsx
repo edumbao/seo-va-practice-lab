@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
+import { getAssignmentById } from "@/data/assignments";
 import AssignmentHeader from "./components/AssignmentHeader";
 import AssignmentSidebar, {
   type AssignmentStep,
@@ -56,6 +57,10 @@ type StoredAssignmentState = {
   activeBusinessIndex: number;
   researchEntries: Record<string, ResearchEntry>;
 };
+
+const assignment = getAssignmentById(
+  "local-seo-competitor-research",
+);
 
 const STORAGE_KEY =
   "seo-va-practice-lab:local-seo-competitor-research";
@@ -326,6 +331,7 @@ export default function AssignmentWorkspace({
     return (
       <>
         <AssignmentHeader
+          assignment={assignment}
           currentStep={5}
           totalSteps={assignmentSteps.length}
           hasLoadedStoredState={
@@ -351,6 +357,7 @@ export default function AssignmentWorkspace({
     return (
       <>
         <AssignmentHeader
+          assignment={assignment}
           currentStep={5}
           totalSteps={assignmentSteps.length}
           hasLoadedStoredState={
@@ -371,6 +378,7 @@ export default function AssignmentWorkspace({
   return (
     <>
       <AssignmentHeader
+        assignment={assignment}
         currentStep={currentStep}
         totalSteps={assignmentSteps.length}
         hasLoadedStoredState={
@@ -446,3 +454,9 @@ export default function AssignmentWorkspace({
     </>
   );
 }
+
+
+
+
+
+

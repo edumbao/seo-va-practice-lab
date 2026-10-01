@@ -1,10 +1,14 @@
+﻿import type { Assignment } from "@/data/assignments";
+
 type AssignmentHeaderProps = {
+  assignment: Assignment;
   currentStep: number;
   totalSteps: number;
   hasLoadedStoredState: boolean;
 };
 
 export default function AssignmentHeader({
+  assignment,
   currentStep,
   totalSteps,
   hasLoadedStoredState,
@@ -14,25 +18,24 @@ export default function AssignmentHeader({
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-            SEO Research
+            {assignment.track}
           </span>
 
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600">
-            Beginner
+            {assignment.difficulty}
           </span>
 
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600">
-            ~30 minutes
+            {assignment.estimatedTime}
           </span>
         </div>
 
         <h1 className="mt-5 max-w-3xl text-4xl font-bold tracking-[-0.035em] sm:text-5xl">
-          Local SEO Competitor Research
+          {assignment.title}
         </h1>
 
         <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-          Practice researching competing local businesses and organizing
-          useful observations for an SEO team.
+          {assignment.assignmentDescription}
         </p>
 
         <div className="mt-8 max-w-3xl">
