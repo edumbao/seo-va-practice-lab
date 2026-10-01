@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getAssignmentById } from "@/data/assignments";
-import AssignmentHeader from "./components/AssignmentHeader";
+import AssignmentHeader from "../components/AssignmentHeader";
 import AssignmentSidebar, {
   type AssignmentStep,
 } from "../components/AssignmentSidebar";
@@ -454,6 +454,7 @@ export default function AssignmentWorkspace({
     </>
   );
 }
+
 
 
 
