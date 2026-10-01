@@ -7,6 +7,10 @@ export default function AssignmentsPage() {
     (assignment) => assignment.status === "available",
   );
 
+  const comingSoonAssignments = assignments.filter(
+    (assignment) => assignment.status === "coming-soon",
+  );
+
   return (
     <main className="min-h-screen bg-[#f7f8fa] text-slate-950">
       <header className="border-b border-slate-200 bg-white">
@@ -55,6 +59,10 @@ export default function AssignmentsPage() {
               {availableAssignments.length} available
             </span>
 
+            <span className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+              {comingSoonAssignments.length} coming soon
+            </span>
+
             <span className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-600">
               More workflows will be added as they are built and tested.
             </span>
@@ -83,6 +91,32 @@ export default function AssignmentsPage() {
           ))}
         </div>
       </section>
+
+      {comingSoonAssignments.length > 0 && (
+        <section className="border-t border-slate-200 bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold tracking-tight">
+                Coming soon
+              </h2>
+
+              <p className="mt-2 max-w-2xl leading-7 text-slate-600">
+                These workflows are planned for the practice library but are
+                not available to start until they have been built and tested.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {comingSoonAssignments.map((assignment) => (
+                <AssignmentCard
+                  key={assignment.id}
+                  assignment={assignment}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-7xl px-6 py-14 lg:px-8">
@@ -115,3 +149,6 @@ export default function AssignmentsPage() {
     </main>
   );
 }
+
+
+

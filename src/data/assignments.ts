@@ -38,6 +38,28 @@ export const assignments: Assignment[] = [
       "Research organization",
     ],
   },
+  {
+    id: "keyword-research-search-intent",
+    title: "Keyword Research + Search Intent",
+    track: "Keyword Research",
+    difficulty: "Beginner",
+    estimatedTime: "~40 minutes",
+    shortDescription:
+      "Review a supplied keyword dataset, classify search intent, group related terms, and explain which keywords deserve priority.",
+    assignmentDescription:
+      "Practice reviewing keyword data, identifying search intent, organizing related keywords, and explaining SEO priorities for a SaaS scenario.",
+    description:
+      "Work from a simulated SaaS SEO brief, review supplied keyword data, classify intent, organize keywords into useful groups, and explain your prioritization decisions.",
+    deliverable: "Keyword Research Sheet",
+    href: "/assignments/keyword-research-search-intent",
+    status: "coming-soon",
+    skills: [
+      "Search intent classification",
+      "Keyword grouping",
+      "Keyword prioritization",
+      "SEO reasoning",
+    ],
+  },
 ];
 
 export const featuredAssignment = assignments[0];
@@ -53,3 +75,4 @@ export function getAssignmentById(id: string): Assignment {
 
   return assignment;
 }
+
