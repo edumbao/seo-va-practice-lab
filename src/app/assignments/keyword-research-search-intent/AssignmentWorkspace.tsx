@@ -7,6 +7,7 @@ import AssignmentSidebar, {
   type AssignmentStep,
 } from "../components/AssignmentSidebar";
 import ClientBriefStep from "./components/ClientBriefStep";
+import DeliverableStep from "./components/DeliverableStep";
 
 export type PracticeKeyword = {
   id: string;
@@ -84,7 +85,14 @@ export default function AssignmentWorkspace({
             />
           )}
 
-          {currentStep > 1 && (
+          {currentStep === 2 && (
+            <DeliverableStep
+              onBack={() => setCurrentStep(1)}
+              onContinue={() => setCurrentStep(3)}
+            />
+          )}
+
+          {currentStep > 2 && (
             <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
                 Step {currentStep}
