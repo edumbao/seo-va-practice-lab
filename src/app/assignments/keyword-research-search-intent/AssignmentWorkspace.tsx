@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAssignmentById } from "@/data/assignments";
 import AssignmentHeader from "../components/AssignmentHeader";
 import AssignmentSidebar, {
@@ -27,9 +27,18 @@ type AssignmentWorkspaceProps = {
   keywords: PracticeKeyword[];
 };
 
+type StoredAssignmentState = {
+  currentStep: number;
+  activeKeywordIndex: number;
+  analysisEntries: Record<string, KeywordAnalysisEntry>;
+};
+
 const assignment = getAssignmentById(
   "keyword-research-search-intent",
 );
+
+const STORAGE_KEY =
+  "seo-va-practice-lab:keyword-research-search-intent";
 
 const assignmentSteps: AssignmentStep[] = [
   {
@@ -75,6 +84,39 @@ function createInitialAnalysisEntries(
   );
 }
 
+function mergeStoredAnalysisEntries(
+  keywords: PracticeKeyword[],
+  storedEntries?: Record<string, KeywordAnalysisEntry>,
+): Record<string, KeywordAnalysisEntry> {
+  const initialEntries =
+    createInitialAnalysisEntries(keywords);
+
+  if (!storedEntries) {
+    return initialEntries;
+  }
+
+  return Object.fromEntries(
+    keywords.map((keyword) => {
+      const storedEntry = storedEntries[keyword.id];
+
+      if (!storedEntry) {
+        return [
+          keyword.id,
+          initialEntries[keyword.id],
+        ];
+      }
+
+      return [
+        keyword.id,
+        {
+          ...initialEntries[keyword.id],
+          ...storedEntry,
+        },
+      ];
+    }),
+  );
+}
+
 export default function AssignmentWorkspace({
   keywords,
 }: AssignmentWorkspaceProps) {
@@ -86,6 +128,100 @@ export default function AssignmentWorkspace({
 
   const [activeKeywordIndex, setActiveKeywordIndex] =
     useState(0);
+
+  const [
+    hasLoadedStoredState,
+    setHasLoadedStoredState,
+  ] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedValue =
+        window.localStorage.getItem(STORAGE_KEY);
+
+      if (!storedValue) {
+        setHasLoadedStoredState(true);
+        return;
+      }
+
+      const storedState = JSON.parse(
+        storedValue,
+      ) as Partial<StoredAssignmentState>;
+
+      if (
+        typeof storedState.currentStep === "number" &&
+        storedState.currentStep >= 1 &&
+        storedState.currentStep <= assignmentSteps.length
+      ) {
+        setCurrentStep(storedState.currentStep);
+      }
+
+      if (
+        typeof storedState.activeKeywordIndex === "number" &&
+        storedState.activeKeywordIndex >= 0 &&
+        storedState.activeKeywordIndex < keywords.length
+      ) {
+        setActiveKeywordIndex(
+          storedState.activeKeywordIndex,
+        );
+      }
+
+      setAnalysisEntries(
+        mergeStoredAnalysisEntries(
+          keywords,
+          storedState.analysisEntries,
+        ),
+      );
+    } catch (error) {
+      console.error(
+        "Could not restore keyword assignment progress.",
+        error,
+      );
+    } finally {
+      setHasLoadedStoredState(true);
+    }
+  }, [keywords]);
+
+  useEffect(() => {
+    if (!hasLoadedStoredState) {
+      return;
+    }
+
+    const stateToStore: StoredAssignmentState = {
+      currentStep,
+      activeKeywordIndex,
+      analysisEntries,
+    };
+
+    try {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(stateToStore),
+      );
+    } catch (error) {
+      console.error(
+        "Could not save keyword assignment progress.",
+        error,
+      );
+    }
+  }, [
+    currentStep,
+    activeKeywordIndex,
+    analysisEntries,
+    hasLoadedStoredState,
+  ]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const goToStep = (step: number) => {
+    setCurrentStep(step);
+    scrollToTop();
+  };
 
   const handleAnalysisChange = (
     keywordId: string,
@@ -107,7 +243,7 @@ export default function AssignmentWorkspace({
         assignment={assignment}
         currentStep={currentStep}
         totalSteps={assignmentSteps.length}
-        hasLoadedStoredState={false}
+        hasLoadedStoredState={hasLoadedStoredState}
       />
 
       <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[280px_1fr] lg:px-8">
@@ -119,22 +255,25 @@ export default function AssignmentWorkspace({
         <section>
           {currentStep === 1 && (
             <ClientBriefStep
-              onContinue={() => setCurrentStep(2)}
+              onContinue={() => goToStep(2)}
             />
           )}
 
           {currentStep === 2 && (
             <DeliverableStep
-              onBack={() => setCurrentStep(1)}
-              onContinue={() => setCurrentStep(3)}
+              onBack={() => goToStep(1)}
+              onContinue={() => goToStep(3)}
             />
           )}
 
           {currentStep === 3 && (
             <PracticeDataStep
               keywords={keywords}
-              onBack={() => setCurrentStep(2)}
-              onContinue={() => setCurrentStep(4)}
+              onBack={() => goToStep(2)}
+              onContinue={() => {
+                setActiveKeywordIndex(0);
+                goToStep(4);
+              }}
             />
           )}
 
@@ -143,10 +282,12 @@ export default function AssignmentWorkspace({
               keywords={keywords}
               analysisEntries={analysisEntries}
               activeKeywordIndex={activeKeywordIndex}
-              onActiveKeywordChange={setActiveKeywordIndex}
+              onActiveKeywordChange={
+                setActiveKeywordIndex
+              }
               onAnalysisChange={handleAnalysisChange}
-              onBack={() => setCurrentStep(3)}
-              onContinue={() => setCurrentStep(5)}
+              onBack={() => goToStep(3)}
+              onContinue={() => goToStep(5)}
             />
           )}
 
@@ -169,7 +310,7 @@ export default function AssignmentWorkspace({
               <div className="mt-6">
                 <button
                   type="button"
-                  onClick={() => setCurrentStep(4)}
+                  onClick={() => goToStep(4)}
                   className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
                   Back to keyword analysis
