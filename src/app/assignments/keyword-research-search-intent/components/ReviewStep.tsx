@@ -3,6 +3,7 @@ import {
   isKeywordAnalysisComplete,
   type KeywordAnalysisEntry,
 } from "../keywordAnalysis";
+import ExportKeywordResearchButton from "./ExportKeywordResearchButton";
 
 type ReviewStepProps = {
   keywords: PracticeKeyword[];
@@ -227,13 +228,20 @@ export default function ReviewStep({
       </div>
 
       <div className="mt-10 border-t border-slate-200 pt-7">
-        <button
-          type="button"
-          onClick={onBack}
-          className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
-        >
-          Back to keyword analysis
-        </button>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Back to keyword analysis
+          </button>
+
+          <ExportKeywordResearchButton
+            keywords={keywords}
+            analysisEntries={analysisEntries}
+          />
+        </div>
       </div>
     </div>
   );
