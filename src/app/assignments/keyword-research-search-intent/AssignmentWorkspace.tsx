@@ -10,6 +10,7 @@ import ClientBriefStep from "./components/ClientBriefStep";
 import DeliverableStep from "./components/DeliverableStep";
 import PracticeDataStep from "./components/PracticeDataStep";
 import KeywordAnalysisStep from "./components/KeywordAnalysisStep";
+import ReviewStep from "./components/ReviewStep";
 import {
   createEmptyKeywordAnalysisEntry,
   type KeywordAnalysisEntry,
@@ -237,6 +238,11 @@ export default function AssignmentWorkspace({
     }));
   };
 
+  const handleEditKeyword = (index: number) => {
+    setActiveKeywordIndex(index);
+    goToStep(4);
+  };
+
   return (
     <>
       <AssignmentHeader
@@ -292,31 +298,12 @@ export default function AssignmentWorkspace({
           )}
 
           {currentStep === 5 && (
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
-              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
-                Step 5
-              </p>
-
-              <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                Assignment 02 review
-              </h2>
-
-              <p className="mt-4 max-w-2xl leading-7 text-slate-600">
-                The Review step is still being built. Your keyword
-                analysis will eventually be summarized here before you
-                finish and export the assignment.
-              </p>
-
-              <div className="mt-6">
-                <button
-                  type="button"
-                  onClick={() => goToStep(4)}
-                  className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                >
-                  Back to keyword analysis
-                </button>
-              </div>
-            </div>
+            <ReviewStep
+              keywords={keywords}
+              analysisEntries={analysisEntries}
+              onBack={() => goToStep(4)}
+              onEditKeyword={handleEditKeyword}
+            />
           )}
         </section>
       </div>

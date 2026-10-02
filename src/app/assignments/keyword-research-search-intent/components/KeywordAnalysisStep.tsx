@@ -261,12 +261,7 @@ export default function KeywordAnalysisStep({
             <button
               type="button"
               onClick={onContinue}
-              disabled={completedCount !== keywords.length}
-              className={`inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 font-semibold transition ${
-                completedCount === keywords.length
-                  ? "bg-blue-600 text-white hover:bg-blue-700"
-                  : "cursor-not-allowed bg-slate-200 text-slate-500"
-              }`}
+              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
             >
               Continue to review
             </button>
@@ -276,9 +271,8 @@ export default function KeywordAnalysisStep({
         {isLastKeyword &&
           completedCount !== keywords.length && (
             <p className="text-right text-xs text-slate-500">
-              Complete Search Intent, Keyword Group, Priority, and
-              Reasoning / Notes for all {keywords.length} keywords before
-              continuing to Review.
+              You can review your work now. Incomplete keywords will be
+              highlighted so you can return and finish them.
             </p>
           )}
       </div>
