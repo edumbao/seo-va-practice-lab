@@ -9,6 +9,11 @@ import AssignmentSidebar, {
 import ClientBriefStep from "./components/ClientBriefStep";
 import DeliverableStep from "./components/DeliverableStep";
 import PracticeDataStep from "./components/PracticeDataStep";
+import KeywordAnalysisStep from "./components/KeywordAnalysisStep";
+import {
+  createEmptyKeywordAnalysisEntry,
+  type KeywordAnalysisEntry,
+} from "./keywordAnalysis";
 
 export type PracticeKeyword = {
   id: string;
@@ -59,10 +64,42 @@ const assignmentSteps: AssignmentStep[] = [
   },
 ];
 
+function createInitialAnalysisEntries(
+  keywords: PracticeKeyword[],
+): Record<string, KeywordAnalysisEntry> {
+  return Object.fromEntries(
+    keywords.map((keyword) => [
+      keyword.id,
+      createEmptyKeywordAnalysisEntry(),
+    ]),
+  );
+}
+
 export default function AssignmentWorkspace({
   keywords,
 }: AssignmentWorkspaceProps) {
   const [currentStep, setCurrentStep] = useState(1);
+
+  const [analysisEntries, setAnalysisEntries] = useState<
+    Record<string, KeywordAnalysisEntry>
+  >(() => createInitialAnalysisEntries(keywords));
+
+  const [activeKeywordIndex, setActiveKeywordIndex] =
+    useState(0);
+
+  const handleAnalysisChange = (
+    keywordId: string,
+    field: keyof KeywordAnalysisEntry,
+    value: string,
+  ) => {
+    setAnalysisEntries((currentEntries) => ({
+      ...currentEntries,
+      [keywordId]: {
+        ...currentEntries[keywordId],
+        [field]: value,
+      },
+    }));
+  };
 
   return (
     <>
@@ -101,43 +138,42 @@ export default function AssignmentWorkspace({
             />
           )}
 
-          {currentStep > 3 && (
+          {currentStep === 4 && (
+            <KeywordAnalysisStep
+              keywords={keywords}
+              analysisEntries={analysisEntries}
+              activeKeywordIndex={activeKeywordIndex}
+              onActiveKeywordChange={setActiveKeywordIndex}
+              onAnalysisChange={handleAnalysisChange}
+              onBack={() => setCurrentStep(3)}
+              onContinue={() => setCurrentStep(5)}
+            />
+          )}
+
+          {currentStep === 5 && (
             <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-600">
-                Step {currentStep}
+                Step 5
               </p>
 
               <h2 className="mt-3 text-2xl font-bold tracking-tight">
-                Assignment 02 workspace
+                Assignment 02 review
               </h2>
 
               <p className="mt-4 max-w-2xl leading-7 text-slate-600">
-                This assignment is still being built. The practice dataset
-                currently contains {keywords.length} simulated keywords.
+                The Review step is still being built. Your keyword
+                analysis will eventually be summarized here before you
+                finish and export the assignment.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-6">
                 <button
                   type="button"
-                  onClick={() =>
-                    setCurrentStep((step) => step - 1)
-                  }
+                  onClick={() => setCurrentStep(4)}
                   className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
                 >
-                  Previous step
+                  Back to keyword analysis
                 </button>
-
-                {currentStep < assignmentSteps.length && (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setCurrentStep((step) => step + 1)
-                    }
-                    className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-                  >
-                    Next step
-                  </button>
-                )}
               </div>
             </div>
           )}
