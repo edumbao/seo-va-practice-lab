@@ -10,6 +10,7 @@ type ReviewStepProps = {
   analysisEntries: Record<string, KeywordAnalysisEntry>;
   onBack: () => void;
   onEditKeyword: (index: number) => void;
+  onFinish: () => void;
 };
 
 export default function ReviewStep({
@@ -17,6 +18,7 @@ export default function ReviewStep({
   analysisEntries,
   onBack,
   onEditKeyword,
+  onFinish,
 }: ReviewStepProps) {
   const completedCount = keywords.filter((keyword) =>
     isKeywordAnalysisComplete(
@@ -237,10 +239,32 @@ export default function ReviewStep({
             Back to keyword analysis
           </button>
 
-          <ExportKeywordResearchButton
-            keywords={keywords}
-            analysisEntries={analysisEntries}
-          />
+          <div className="flex flex-col items-end gap-3">
+            <ExportKeywordResearchButton
+              keywords={keywords}
+              analysisEntries={analysisEntries}
+            />
+
+            <button
+              type="button"
+              onClick={onFinish}
+              disabled={!allComplete}
+              className={`inline-flex min-h-12 items-center justify-center rounded-xl px-6 py-3 font-semibold transition ${
+                allComplete
+                  ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                  : "cursor-not-allowed bg-slate-200 text-slate-500"
+              }`}
+            >
+              Finish assignment
+            </button>
+
+            {!allComplete && (
+              <p className="max-w-sm text-right text-xs leading-5 text-slate-500">
+                Complete all {keywords.length} keyword entries before
+                finishing the assignment.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

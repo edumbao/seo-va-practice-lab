@@ -11,6 +11,8 @@ import DeliverableStep from "./components/DeliverableStep";
 import PracticeDataStep from "./components/PracticeDataStep";
 import KeywordAnalysisStep from "./components/KeywordAnalysisStep";
 import ReviewStep from "./components/ReviewStep";
+import AssignmentComplete from "./components/AssignmentComplete";
+import StartOverConfirmation from "./components/StartOverConfirmation";
 import {
   createEmptyKeywordAnalysisEntry,
   type KeywordAnalysisEntry,
@@ -27,6 +29,11 @@ export type PracticeKeyword = {
 type AssignmentWorkspaceProps = {
   keywords: PracticeKeyword[];
 };
+
+type CompletionView =
+  | "assignment"
+  | "complete"
+  | "confirm-reset";
 
 type StoredAssignmentState = {
   currentStep: number;
@@ -134,6 +141,9 @@ export default function AssignmentWorkspace({
     hasLoadedStoredState,
     setHasLoadedStoredState,
   ] = useState(false);
+
+  const [completionView, setCompletionView] =
+    useState<CompletionView>("assignment");
 
   useEffect(() => {
     try {
@@ -243,6 +253,87 @@ export default function AssignmentWorkspace({
     goToStep(4);
   };
 
+  const handleFinishAssignment = () => {
+    setCurrentStep(5);
+    setCompletionView("complete");
+    scrollToTop();
+  };
+
+  const handleReturnToReview = () => {
+    setCurrentStep(5);
+    setCompletionView("assignment");
+    scrollToTop();
+  };
+
+  const handleRequestStartOver = () => {
+    setCompletionView("confirm-reset");
+    scrollToTop();
+  };
+
+  const handleCancelStartOver = () => {
+    setCompletionView("complete");
+    scrollToTop();
+  };
+
+  const handleConfirmStartOver = () => {
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      console.error(
+        "Could not clear keyword assignment progress.",
+        error,
+      );
+    }
+
+    setAnalysisEntries(
+      createInitialAnalysisEntries(keywords),
+    );
+    setActiveKeywordIndex(0);
+    setCurrentStep(1);
+    setCompletionView("assignment");
+    scrollToTop();
+  };
+
+  if (completionView === "complete") {
+    return (
+      <>
+        <AssignmentHeader
+          assignment={assignment}
+          currentStep={5}
+          totalSteps={assignmentSteps.length}
+          hasLoadedStoredState={hasLoadedStoredState}
+        />
+
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8">
+          <AssignmentComplete
+            onReturnToReview={handleReturnToReview}
+            onStartOver={handleRequestStartOver}
+          />
+        </div>
+      </>
+    );
+  }
+
+  if (completionView === "confirm-reset") {
+    return (
+      <>
+        <AssignmentHeader
+          assignment={assignment}
+          currentStep={5}
+          totalSteps={assignmentSteps.length}
+          hasLoadedStoredState={hasLoadedStoredState}
+        />
+
+        <div className="mx-auto max-w-5xl px-6 py-10 lg:px-8">
+          <StartOverConfirmation
+            onCancel={handleCancelStartOver}
+            onConfirm={handleConfirmStartOver}
+          />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <AssignmentHeader
@@ -303,6 +394,7 @@ export default function AssignmentWorkspace({
               analysisEntries={analysisEntries}
               onBack={() => goToStep(4)}
               onEditKeyword={handleEditKeyword}
+              onFinish={handleFinishAssignment}
             />
           )}
         </section>
