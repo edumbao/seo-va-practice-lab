@@ -52,7 +52,7 @@ export const assignments: Assignment[] = [
       "Work from a simulated SaaS SEO brief, review supplied keyword data, classify intent, organize keywords into useful groups, and explain your prioritization decisions.",
     deliverable: "Keyword Research Sheet",
     href: "/assignments/keyword-research-search-intent",
-    status: "coming-soon",
+    status: "available",
     skills: [
       "Search intent classification",
       "Keyword grouping",
