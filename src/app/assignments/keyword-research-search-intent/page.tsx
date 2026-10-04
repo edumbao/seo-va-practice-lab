@@ -1,3 +1,4 @@
+import Image from "next/image";
 ﻿import Link from "next/link";
 import AssignmentWorkspace from "./AssignmentWorkspace";
 import keywordPracticeData from "@/data/keyword-research-practice.json";
@@ -8,9 +9,14 @@ export default function KeywordResearchSearchIntentPage() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
           <Link href="https://seovapractice.com" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 font-bold text-white">
-              S
-            </div>
+            <Image
+              src="/brand/seo-va-practice-mark-512.png"
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-xl"
+              priority
+            />
 
             <div>
               <p className="font-semibold tracking-tight">
