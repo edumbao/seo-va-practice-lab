@@ -32,7 +32,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#f7f8fa] text-slate-950">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
-          <a href="/" className="flex items-center gap-3">
+          <a href="https://seovapractice.com" className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 font-bold text-white">
               S
             </div>
