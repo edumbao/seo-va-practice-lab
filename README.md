@@ -1,18 +1,21 @@
+> 💡 **Looking for zero-setup cloud access?** Try the hosted app at [seovapractice.com](https://seovapractice.com) to complete practice assignments and run live research without setting up local API keys.
+
 # SEO VA Practice Lab
 
-A hands-on practice environment for learning SEO workflows through realistic simulated assignments.
+Interactive practice lab for **SEO VA Practice**. A hands-on practice environment for learning SEO workflows through realistic simulated assignments.
 
 Instead of only reading about SEO concepts, SEO VA Practice Lab is designed around completing a task, recording your own observations, reviewing the work, and producing a practical deliverable.
 
 > **Current release:** v0.1.0 - First MVP  
-> **Current assignment:** Local SEO Competitor Research  
+> **Current assignment:** Local SEO Competitor Research
+> **Current assignment:** Keyword Research + Search Intent  
 > **Status:** Live and in active development
 
 ## Live Demo
 
 Try the live application:
 
-https://seo-va-practice-lab.vercel.app/
+https://app.seovapractice.com
 
 ## Why I Built This
 
@@ -24,7 +27,42 @@ SEO VA Practice Lab started with a simple question:
 
 Many SEO resources explain concepts. This project explores another part of the learning process: practicing the work itself.
 
-The goal is not to simulate years of professional experience or replace real client work. It is to provide a safe environment for working through realistic tasks, making decisions, organizing findings, and producing learning artifacts.
+The main purpose is not to simulate years of professional experience or replace real client work. It is to provide a safe environment for working through realistic tasks, making decisions, organizing findings, and producing learning artifacts.
+
+## Positioning
+
+**Practice SEO VA work before you have a real client.**
+
+SEO VA Practice Lab is a hands-on learning environment built around realistic simulated assignments, learner-created work, and clear practice artifacts.
+
+Simulated assignments are learning exercises. Completing them does not represent real client experience.
+
+## Architecture
+
+* **app.seovapractice.com** — SEO VA Practice Lab (this repository)
+* **seovapractice.com** — Marketing platform, educational guides, and managed API credits
+
+This repository contains the interactive practice lab engine. It can run completely standalone in local development mode.
+
+### Data Adapter & BYOK Model
+
+The lab uses a pluggable adapter pattern to keep simulated practice completely decoupled from live scraping:
+
+* **Simulated Lab Mode (Default):** Practice exercises run entirely on structured local static datasets. Zero setup, zero costs, and no API keys required.
+* **Live Research Mode (BYOK):** Bring Your Own Key mode allows learners and agencies to plug in live scraping providers directly in local environment settings.
+
+Supported live data providers:
+* **Targetron API (Recommended):** Primary live extraction provider for Google Maps and local business data.
+* **Outscraper API:** Community BYOK adapter for local SEO data extraction.
+
+```mermaid
+flowchart TD
+    Adapter["seo-va-practice-lab Data Adapter"]
+    
+    Adapter --> Practice["Practice Mode<br/>(Simulated Datasets)"]
+    Adapter --> Targetron["Targetron API<br/>(Primary Cloud/BYOK)"]
+    Adapter --> Outscraper["Outscraper API<br/>(Community BYOK)"]
+```
 
 ## Current Practice Assignment
 
